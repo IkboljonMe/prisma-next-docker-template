@@ -1,20 +1,12 @@
 import Head from "next/head";
 import axios from "axios";
-import {
-  Button,
-  Container,
-  Divider,
-  Form,
-  Header,
-  Icon,
-  Image,
-  Table,
-} from "semantic-ui-react";
 import pkg from "semantic-ui-react/package.json";
 import { Prisma } from "@prisma/client";
-import { fetcher } from "../utils/fetcher";
+// import { fetcher } from "../utils/fetcher";
 import prisma from "../lib/prisma";
 import { useState } from "react";
+import classes from "../styles/Home.module.scss";
+import { Button, Container, Divider, Form, Header, Icon, Image, Table } from "semantic-ui-react";
 
 export async function getServerSideProps() {
   const users: Prisma.UserUncheckedCreateInput[] = await prisma.user.findMany();
@@ -39,7 +31,7 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
   const [avatar, setAvatar] = useState("");
   const [role, setRole] = useState<any>(null);
 
-  const handleChange = ({ value }) => {
+  const handleChange = (e, { value }) => {
     setRole(value);
   };
 
@@ -52,13 +44,10 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
     <>
       <Head>
         <title>Create Next App</title>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
-        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
       </Head>
       <Container style={{ margin: 20 }}>
-        <Header as="h3">
+        <Header className={classes.topBarText} as="h3">
           This app is powered by NextJS, Semantic UI {pkg.version}
         </Header>
         <Form
@@ -82,72 +71,59 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
           }}
         >
           <Form.Group widths="equal">
-            <Form.Input
-              fluid
-              label="First Name"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+            <Form.Input fluid label="First Name" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             <br />
-            <Form.Input
-              fluid
-              label="Last Name"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <Form.Input
-              fluid
-              label="Email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Form.Input
-              fluid
-              label="Avatar"
-              placeholder="Avatar"
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
-            />
-            <Form.Select
-              fluid
-              label="Role"
-              placeholder="Role"
-              options={options}
-              value={role}
-              onChange={handleChange}
-            />
+            <Form.Input fluid label="Last Name" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+            <Form.Input fluid label="Email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Form.Input fluid label="Avatar" placeholder="Avatar" value={avatar} onChange={(e) => setAvatar(e.target.value)} />
+            <Form.Select fluid label="Role" placeholder="Role" options={options} value={role} onChange={handleChange} />
           </Form.Group>
-          <Form.Button>Submit</Form.Button>
+          {/* <Form.Button attached="bottom">Submit</Form.Button> */}
+          <Button.Group attached="bottom">
+            <Button
+              onClick={() => {
+                setFirstName("");
+                setAvatar("");
+                setLastName("");
+                setRole(null);
+                setEmail("");
+              }}
+              color="red"
+            >
+              Cancel
+            </Button>
+            <Button.Or />
+            <Button type="submit" positive>
+              Submit
+            </Button>
+          </Button.Group>
         </Form>
 
         <Divider horizontal>Users</Divider>
 
-        <Table basic="very" celled collapsing>
+        <Table inverted celled>
           <Table.Header>
-            <Table.Row>
+            <Table.Row className={classes.headerTop}>
               <Table.HeaderCell>User</Table.HeaderCell>
               <Table.HeaderCell>Email</Table.HeaderCell>
               <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
-          <Table.Body>
+          <Table.Body className={classes.headerBottom}>
             {users.map((u: any, index: any) => (
               <Table.Row key={index}>
                 <Table.Cell>
                   <Header as="h4" image>
-                    <Image src={u.avatar} rounded size="mini"></Image>
-                    <Header.Content>
+                    <Image circular src={u.avatar} size="mini"></Image>
+                    <Header.Content className={classes.headerContent}>
                       {u.firstName + " " + u.lastName}
-                      <Header.Subheader>{capitalize(u.role)}</Header.Subheader>
+                      <Header.Subheader className={classes.headerSubheader}>{capitalize(u.role)}</Header.Subheader>
                     </Header.Content>
                   </Header>
                 </Table.Cell>
                 <Table.Cell>{u.email}</Table.Cell>
-                <Table.Cell>
+                <Table.Cell center>
                   <Button
                     animated="fade"
                     color="red"
