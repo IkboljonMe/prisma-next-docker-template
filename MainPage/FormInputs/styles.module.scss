@@ -1,0 +1,24 @@
+.topBarText {
+  height: 150px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  font-size: 26px !important;
+  justify-content: center;
+  background: #2b2b2b;
+  background-image: url(../../assets/bg-texture.png);
+  div {
+    color: white;
+  }
+  border-radius: 5px;
+}
+
+.formTextsTop label {
+  margin-left: 5px !important;
+}
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+  .topBarText {
+    font-size: 18px !important;
+  }
+}

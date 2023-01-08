@@ -1,0 +1,41 @@
+.headerContent,
+.headerSubheader {
+  color: white !important;
+}
+.headerSubheader {
+  opacity: 0.7;
+}
+.mobileTableHeadLabel {
+  display: flex;
+  text-align: center !important;
+  font-size: 20px !important;
+}
+
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+  .tr {
+    margin: 10px !important;
+  }
+  .centeredTableCell {
+    display: flex;
+    text-align: center !important ;
+  }
+  .centerImg {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .tableMobileVersion {
+    padding: 10px !important;
+  }
+  
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .tableLaptopVersion {
+    display: flex;
+  }
+  .tableMobileVersion {
+    display: none;
+  }
+}

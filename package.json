@@ -13,6 +13,8 @@
     "@prisma/client": "^4.8.1",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
+    "@types/sass": "^1.43.1",
+    "@types/scss-parser": "^1.0.1",
     "axios": "^1.2.2",
     "next": "13.1.1",
     "prisma": "^4.8.1",
