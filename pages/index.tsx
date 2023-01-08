@@ -1,4 +1,5 @@
 import Head from "next/head";
+import axios from "axios";
 import {
   Button,
   Container,
@@ -36,9 +37,11 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [role, setRole] = useState<any>();
+  const [role, setRole] = useState<any>(null);
 
-  const handleChange = (value: any) => setRole(value);
+  const handleChange = ({ value }) => {
+    setRole(value);
+  };
 
   const capitalize = (s: string) => {
     if (typeof s !== "string") return "";
@@ -68,7 +71,8 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
               avatar,
             };
 
-            await fetcher("/api/create", { user: body });
+            // await fetcher("/api/create", { user: body });
+            await axios.post(`api/create`, { user: body });
             await setUsers([...users, body]);
             setFirstName("");
             setAvatar("");
@@ -113,7 +117,7 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
               placeholder="Role"
               options={options}
               value={role}
-              onChange={() => handleChange(role)}
+              onChange={handleChange}
             />
           </Form.Group>
           <Form.Button>Submit</Form.Button>
@@ -148,7 +152,8 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
                     animated="fade"
                     color="red"
                     onClick={async () => {
-                      await fetcher("/api/delete", { id: u.id });
+                      // await fetcher("/api/delete", { id: u.id });
+                      await axios.post(`api/delete`, { id: u.id });
                       await setUsers(users.filter((usr) => usr !== u));
                     }}
                   >
