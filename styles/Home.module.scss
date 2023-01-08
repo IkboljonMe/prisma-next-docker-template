@@ -2,6 +2,9 @@
 .headerSubheader {
   color: white !important;
 }
+.headerSubheader {
+  opacity: 0.7;
+}
 .headerTop {
   text-align: center;
 
@@ -14,5 +17,58 @@
   text-align: center;
   align-items: center;
   display: flex;
+  font-size: 26px !important;
   justify-content: center;
+}
+.formTextsTop label {
+  margin-left: 5px !important;
+}
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tableLaptopVersion {
+  display: none;
+}
+.mobileTableHeadLabel {
+  justify-content: center !important;
+  text-align: center !important;
+  align-items: center;
+  display: flex;
+  font-size: 20px !important;
+}
+
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+  .tr {
+    margin: 10px !important;
+  }
+  .centerCell {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important ;
+
+    span {
+      display: flex !important;
+      img {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important ;
+      }
+    }
+  }
+  .tableMobileVersion {
+    padding: 10px !important;
+  }
+}
+@media (min-width: $breakpoint-tablet) {
+  .tableLaptopVersion {
+    display: flex;
+  }
+  .tableMobileVersion {
+    visibility: hidden;
+  }
 }
