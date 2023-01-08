@@ -2,14 +2,12 @@ import Head from "next/head";
 import axios from "axios";
 import pkg from "semantic-ui-react/package.json";
 import { Prisma } from "@prisma/client";
-// import { fetcher } from "../utils/fetcher";
+
 import prisma from "../lib/prisma";
 import { useState } from "react";
 import classes from "../styles/Home.module.scss";
 import { Button, Container, Divider, Form, Header, Icon, Image, Tab, Table } from "semantic-ui-react";
 import { Alegreya } from "@next/font/google";
-
-// If loading a variable font, you don't need to specify the font weight
 const alegreya = Alegreya({
   weight: "600",
   subsets: ["latin"],
@@ -31,9 +29,6 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
   const [avatar, setAvatar] = useState("");
   const [role, setRole] = useState<any>(null);
 
-  const handleChange = (e, { value }) => {
-    setRole(value);
-  };
 
   const capitalize = (s: string) => {
     if (typeof s !== "string") return "";
@@ -77,8 +72,10 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
             <Form.Input fluid label="First Name" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             <Form.Input fluid label="Last Name" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
             <Form.Input fluid label="Email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Form.Input fluid label="Avatar" placeholder="Avatar" value={avatar} onChange={(e) => setAvatar(e.target.value)} />
-            <Form.Select fluid label="Role" placeholder="Role" options={options} value={role} onChange={handleChange} />
+            <Form.Input fluid label="Avatar URL" placeholder="Avatar" value={avatar} onChange={(e) => setAvatar(e.target.value)} />
+            <Form.Select fluid label="Role" placeholder="Role" options={options} value={role} onChange={(value:any)=>{
+               setRole(value.value);
+            }} />
           </Form.Group>
           <Button.Group attached="bottom">
             <Button
@@ -119,9 +116,9 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
                     <Header as="h4" image>
                       <Image circular src={u.avatar} size="mini"></Image>
                       <Header.Content className={classes.headerContent}>
-                        <div className={alegreya.className}> {u.firstName + " " + u.lastName}</div>
+                        {u.firstName + " " + u.lastName}
                         <Header.Subheader className={classes.headerSubheader}>
-                          <div className={alegreya.className}> {capitalize(u.role)}</div>
+           {capitalize(u.role)}
                         </Header.Subheader>
                       </Header.Content>
                     </Header>
@@ -150,8 +147,8 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
           </Table>
         </div>
 
-        {users.map((u: any, index: any) => (
-          <Table className={classes.tableMobileVersion} inverted celled>
+        {users.map((u: any, index: number) => (
+          <Table key={index} className={classes.tableMobileVersion} inverted celled>
             <Table.Header className={classes.tr}>
               <Table.Row>
                 <Table.HeaderCell className={classes.mobileTableHeadLabel}>User</Table.HeaderCell>
@@ -159,13 +156,12 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
             </Table.Header>
             <Table.Body>
               <Table.Row>
-                <Table.Cell className={classes.centerCell}>
-                  <span>
-                    <Image circular src={u.avatar} size="mini"></Image>
-                  </span>
-                </Table.Cell>
-                <Table.Cell className={classes.centerCell}>
-                  <Header as="h4" image>
+
+             <div className={classes.centerImg}>  
+              <Image circular src={u.avatar} size="mini"></Image></div>
+           
+                <Table.Cell className={classes.centeredTableCell}>
+                  <Header className={classes.centerCell}  as="h4" image>
                     <Header.Content className={classes.headerContent}>
                       <div className={alegreya.className}> {u.firstName + " " + u.lastName}</div>
                       <Header.Subheader className={classes.headerSubheader}>
@@ -174,8 +170,8 @@ const Home: React.FC<HomeI> = ({ initialUsers }) => {
                     </Header.Content>
                   </Header>
                 </Table.Cell>
-                <Table.Cell className={classes.centerCell}>{u.email}</Table.Cell>
-                <Table.Cell className={classes.centerCell}>
+                <Table.Cell className={classes.centeredTableCell}>{u.email}</Table.Cell>
+                <Table.Cell className={classes.centeredTableCell}>
                   <Button.Group size="large">
                     <Button animated="fade" color="green">
                       <Button.Content visible>Edit</Button.Content>
